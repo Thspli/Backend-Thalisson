@@ -7,12 +7,12 @@ app.use(express.json()); //mostrar pro express o json
 //Rota para criar usuário
 
 app.post('/users', (req, res) =>{
-    const{nome, email} = req.body;
-    if(!nome || !email){
+    const{nome, email, senha, endereco, telefone, cpf} = req.body;
+    if(!nome || !email || !senha || !endereco || !telefone || !cpf){
         return res.status(400).json({error: "Nome e mail são obrigatórios"})
     }
 
-    const user = userService.addUser(nome, email);
+    const user = userService.addUser(nome, email, senha, endereco, telefone, cpf);
     res.status(200).json({user});
 }
 )
