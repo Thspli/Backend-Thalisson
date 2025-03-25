@@ -1,7 +1,7 @@
 const User = require ("./user");
 const path = require('path'); //modulo para manipular caminhos
 const fs = require('fs'); // modulo para manipular arquivos files system
-
+const bcryptjs = require('bcryptjs'); //modulo para criptografar senha
 
 class userService{
     constructor(){
@@ -39,9 +39,10 @@ class userService{
             console.log("Erro ao carregar arquivo", erro);
         }
     }
-        addUser(nome, email, senha, endereco, telefone, cpf){
+        async addUser(nome, email, senha, endereco, telefone, cpf){
             try{
-            const user = new User(this.nextId++, nome, email, senha, endereco, telefone, cpf); //++ vai adicionar mais 1 no número do id a cada novo usuário, que inicialmente é 1.
+            const senhaCriptografada = await bcryptjs.hash(senha, 10);
+            const user = new User(this.nextId++, nome, email, senhaCriptografada, endereco, telefone, cpf); //++ vai adicionar mais 1 no número do id a cada novo usuário, que inicialmente é 1.
             this.users.push(user);
             this.saveUsers();
             return user;
@@ -68,13 +69,14 @@ class userService{
         }
     }
 
-        updateUser(id, nome, email, senha, endereco, telefone, cpf){
+        async updateUser(id, nome, email, senha, endereco, telefone, cpf){
             try{
+            const senhaCriptografada = await bcryptjs.hash(senha, 10);
             const user = this.users.find(user => user.id === id);
             if(!user) throw new Error("Usuário não encontrado");
             user.nome = nome;
             user.email = email;
-            user.senha = senha;
+            user.senha = senhaCriptografada;
             user.endereco = endereco;
             user.telefone = telefone;
             user.cpf = cpf;
@@ -84,7 +86,5 @@ class userService{
                 console.log("Erro", erro)
             }}
 }
-
-
 
 module.exports = new userService;
