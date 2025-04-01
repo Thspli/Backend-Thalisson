@@ -7,14 +7,20 @@ app.use(express.json()); //mostrar pro express o json
 //Rota para criar usuário
 
 app.post('/users', async(req, res) =>{
+    try{
     const{nome, email, senha, endereco, telefone, cpf} = req.body;
     if(!nome || !email || !senha || !endereco || !telefone || !cpf){
         return res.status(400).json({error: "Nome e mail são obrigatórios"})
     }
-
     const user = await userService.addUser(nome, email, senha, endereco, telefone, cpf);
-    res.status(200).json({user});
+    res.status(201).json({user});
+}   catch(erro){
+    console.log(erro);
+    res.status(400).json({error: "Erro ao criar usuário"});
+    throw erro;
+    }//catch é pra caso ocorra um erro
 }
+
 )
 
 //Rota para listar usuários
@@ -43,9 +49,10 @@ app.put("/users/:id", async(req, res) => {
             return res.status(404).json({ error: "Usuário não encontrado" });
         }
         res.status(200).json(resultado);
-    } catch (erro) {
-        console.log("Erro ao atualizar o usuário", erro);
-        res.status(500).json({ error: "Erro ao atualizar o usuário" });
+    }catch(erro){
+        console.log(erro);
+        res.status(400).json({error: erro.message});
+        throw erro;
     }
 });
 
