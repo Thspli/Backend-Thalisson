@@ -4,8 +4,7 @@ const userService = require('./userService');
 const app = express(); //nome qualquer pra express
 app.use(express.json()); //mostrar pro express o json
 
-//Rota para criar usuário
-
+//Rota para criar usuários
 app.post('/users', async(req, res) =>{
     try{
     const{nome, email, senha, endereco, telefone, cpf} = req.body;
@@ -13,7 +12,7 @@ app.post('/users', async(req, res) =>{
         return res.status(400).json({error: "Nome e mail são obrigatórios"})
     }
     const user = await userService.addUser(nome, email, senha, endereco, telefone, cpf);
-    res.status(201).json({user});
+    res.status(201).json({mensagem: "Usuário Cadastrado com sucesso!", user});
 }   catch(erro){
     console.log(erro);
     res.status(400).json({error: "Erro ao criar usuário"});

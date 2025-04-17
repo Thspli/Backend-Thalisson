@@ -18,18 +18,16 @@ USE `idev3` ;
 -- Table `idev3`.`usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `idev3`.`usuarios` (
-  `idUsuario` INT NOT NULL AUTO_INCREMENT,
-  `Usuariocol` VARCHAR(45) NOT NULL,
-  `⁮Nome` VARCHAR(255) NOT NULL,
-  `Email` VARCHAR(45) NOT NULL,
-  `Senha` VARCHAR(45) NOT NULL,
-  `Endereco` VARCHAR(60) NOT NULL,
-  `Telefone` VARCHAR(20) NOT NULL,
-  `Cpf` CHAR(11) NOT NULL,
-  PRIMARY KEY (`idUsuario`),
-  UNIQUE INDEX `Cpf_UNIQUE` (`Cpf` ASC) VISIBLE)
+  `id_usuario` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(255) NOT NULL, -- Corrigido
+  `email` VARCHAR(45) NOT NULL,
+  `senha` VARCHAR(45) NOT NULL,
+  `endereco` VARCHAR(60) NOT NULL,
+  `telefone` VARCHAR(20) NOT NULL,
+  `cpf` CHAR(11) NOT NULL,
+  PRIMARY KEY (`id_usuario`),
+  UNIQUE INDEX `Cpf_UNIQUE` (`cpf` ASC) VISIBLE)
 ENGINE = InnoDB;
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
